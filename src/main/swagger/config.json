@@ -15,7 +15,7 @@
   "serializableModel" : true,
   "implicitHeaders" : false,
   "swaggerDocketConfig": false,
-  "hideGenerationTimestamp": true,
+  "hideGenerationTimestamp": false,
 
   "useSpringfox": false,
   "reactive": false,

@@ -39,6 +39,11 @@ openApiGenerate {
     templateDir= "$projectDir/src/main/swagger/templates"
     outputDir= "$projectDir/src/main/swagger/.generated"
 }
+tasks.named("openApiGenerate") {
+    doFirst {
+        delete openApiGenerate.outputDir.get()
+    }
+}
 
 task openApiHtmlGenerate(type: GenerateTask){
     inputSpec="$projectDir/src/main/swagger/api.yml"
