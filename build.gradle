@@ -44,14 +44,28 @@ tasks.named("openApiGenerate") {
         delete openApiGenerate.outputDir.get()
     }
 }
-
 task openApiHtmlGenerate(type: GenerateTask){
     inputSpec="$projectDir/src/main/swagger/api.yml"
     generatorName = "html2"
     outputDir= "$projectDir/src/main/swagger/.generated/src/main/resources/swagger/swagger-html"
 }
 
+task openApiYmlGenerate(type: GenerateTask){
+    inputSpec="$projectDir/src/main/swagger/api.yml"
+    generatorName = "openapi-yaml"
+    outputDir= "$projectDir/src/main/swagger/.generated/src/main/resources/swagger/"
+    configOptions = [
+            outputFile: "openapi.yml"
+    ]
+}
+
+task openApiJsonGenerate(type: GenerateTask){
+    inputSpec="$projectDir/src/main/swagger/api.yml"
+    generatorName = "openapi"
+    outputDir= "$projectDir/src/main/swagger/.generated/src/main/resources/swagger/"
+}
+
 tasks.openApiGenerate.dependsOn  tasks.openApiValidate
-tasks.compileJava.dependsOn tasks.openApiGenerate, tasks.openApiHtmlGenerate
+tasks.compileJava.dependsOn tasks.openApiGenerate, tasks.openApiHtmlGenerate, tasks.openApiYmlGenerate, tasks.openApiJsonGenerate
 sourceSets.main.java.srcDir "${openApiGenerate.outputDir.get()}/src/main/java"
 sourceSets.main.resources.srcDir "${openApiGenerate.outputDir.get()}/src/main/resources"
