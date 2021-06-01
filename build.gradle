@@ -19,6 +19,12 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //implementation 'org.openapitools:openapi-generator:5.1.0'
+    //fixed for swagger
+    compileOnly 'io.swagger:swagger-annotations:1.6.1'
+    compileOnly 'jakarta.validation:jakarta.validation-api:2.0.2'
+    compileOnly 'org.openapitools:jackson-databind-nullable:0.1.0'
 }
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
