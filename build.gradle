@@ -41,6 +41,7 @@ openApiGenerate {
     inputSpec="$projectDir/src/main/swagger/api.yml"
     generatorName = "spring"
     configFile= "$projectDir/src/main/swagger/config.json"
+    templateDir= "$projectDir/src/main/swagger/templates"
     outputDir= "$projectDir/src/main/swagger/.generated"
 }
 
