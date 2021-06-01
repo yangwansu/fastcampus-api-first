@@ -20,3 +20,25 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+openApiValidate {
+    inputSpec="$projectDir/src/main/swagger/api.yml"
+    recommend=true
+}
+
+openApiGenerate {
+    inputSpec="$projectDir/src/main/swagger/api.yml"
+    generatorName = "spring"
+    configFile= "$projectDir/src/main/swagger/config.json"
+    outputDir= "$projectDir/src/main/swagger/.generated"
+}
+
+tasks.openApiGenerate.dependsOn  tasks.openApiValidate
+tasks.compileJava.dependsOn tasks.openApiGenerate
+sourceSets.main.java.srcDir "${openApiGenerate.outputDir.get()}/src/main/java"
+sourceSets.main.resources.srcDir "${openApiGenerate.outputDir.get()}/src/main/resources"
