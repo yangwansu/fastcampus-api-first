@@ -17,7 +17,7 @@ dependencies {
 
     //implementation 'org.openapitools:openapi-generator:5.1.0'
     //fixed for swagger
-    compileOnly 'io.swagger:swagger-annotations:1.6.1'
+    compileOnly 'io.swagger:swagger-annotations:1.6.1' //see templates
     compileOnly 'jakarta.validation:jakarta.validation-api:2.0.2'
     compileOnly 'org.openapitools:jackson-databind-nullable:0.1.0'
 }
