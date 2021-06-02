@@ -8,6 +8,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version "2.5.0"
     id 'io.spring.dependency-management' version "1.0.11.RELEASE"
+    id "org.openapi.generator" version "5.1.0"
 }
 
 repositories {
@@ -22,4 +23,32 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    //compileOnly'org.openapitools:openapi-generator:5.1.0'
+    compileOnly 'io.swagger:swagger-annotations:1.6.1' //see templates
+    compileOnly 'jakarta.validation:jakarta.validation-api:2.0.2'
+    compileOnly 'org.openapitools:jackson-databind-nullable:0.1.0'
 }
+
+def swaggerDir = "$projectDir/src/main/swagger"
+openApiValidate {
+    it.inputSpec = "$swaggerDir/api.yml"
+    it.recommend = true
+}
+
+openApiGenerate {
+    it.inputSpec = "$swaggerDir/api.yml"
+    it.generatorName = "spring"
+    it.configFile = "$swaggerDir/config.json"
+    it.templateDir ="$swaggerDir/templates/"
+    it.outputDir= "$swaggerDir/.generated"
+}
+
+tasks.named("openApiGenerate") {
+    it.doFirst {
+        delete openApiGenerate.outputDir.get()
+    }
+}
+
+
+sourceSets.main.java.srcDir "${openApiGenerate.outputDir.get()}/src/main/java"
+sourceSets.main.resources.srcDir "${openApiGenerate.outputDir.get()}/src/main/resources"
