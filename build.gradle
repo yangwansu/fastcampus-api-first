@@ -69,6 +69,10 @@ task openApiJsonGenerate(type: GenerateTask){
             from("$projectDir/src/main/swagger/redoc")
             into("$projectDir/src/main/swagger/.generated/src/main/resources/swagger/redoc")
         }
+        copy {
+            from("$projectDir/src/main/swagger/ui")
+            into("$projectDir/src/main/swagger/.generated/src/main/resources/swagger/ui")
+        }
     }
 }
 
