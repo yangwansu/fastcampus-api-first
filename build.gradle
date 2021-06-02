@@ -63,6 +63,13 @@ task openApiJsonGenerate(type: GenerateTask){
     inputSpec="$projectDir/src/main/swagger/api.yml"
     generatorName = "openapi"
     outputDir= "$projectDir/src/main/swagger/.generated/src/main/resources/swagger/"
+
+    doLast {
+        copy {
+            from("$projectDir/src/main/swagger/redoc")
+            into("$projectDir/src/main/swagger/.generated/src/main/resources/swagger/redoc")
+        }
+    }
 }
 
 tasks.openApiGenerate.dependsOn  tasks.openApiValidate
