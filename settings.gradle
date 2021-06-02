@@ -8,3 +8,6 @@
  */
 
 rootProject.name = 'test'
+
+
+include ('api', 'masilSpring')

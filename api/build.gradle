@@ -5,6 +5,12 @@
  * Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.0.2/samples
  */
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+buildscript {
+
+    dependencies {
+        classpath(project(":masilSpring"))
+    }
+}
 
 plugins {
     id 'java'
@@ -39,7 +45,7 @@ openApiValidate {
 
 openApiGenerate {
     it.inputSpec = "$swaggerDir/api.yml"
-    it.generatorName = "spring"
+    it.generatorName = "masilspring"
     it.configFile = "$swaggerDir/spring-boot-config.json"
     it.templateDir ="$swaggerDir/templates/"
     it.outputDir= "$swaggerDir/.generated"
