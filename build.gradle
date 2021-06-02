@@ -4,6 +4,8 @@
  * This is a general purpose Gradle build.
  * Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.0.2/samples
  */
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version "2.5.0"
@@ -38,7 +40,7 @@ openApiValidate {
 openApiGenerate {
     it.inputSpec = "$swaggerDir/api.yml"
     it.generatorName = "spring"
-    it.configFile = "$swaggerDir/config.json"
+    it.configFile = "$swaggerDir/spring-boot-config.json"
     it.templateDir ="$swaggerDir/templates/"
     it.outputDir= "$swaggerDir/.generated"
 }
@@ -49,6 +51,32 @@ tasks.named("openApiGenerate") {
     }
 }
 
+task openApiHtml2Generate(type: GenerateTask){
+    it.inputSpec = "$swaggerDir/api.yml"
+    it.generatorName = "html2"
+    it.outputDir= "$swaggerDir/.generated/src/main/resources/swagger/swagger-html2/"
+}
+
+task openApiJsonGenerate(type: GenerateTask){
+    it.inputSpec = "$swaggerDir/api.yml"
+    it.generatorName = "openapi"
+    it.outputDir= "$swaggerDir/.generated/src/main/resources/swagger/"
+
+    it.doLast {
+        copy {
+            from("$projectDir/src/main/swagger/redoc")
+            into("$projectDir/src/main/swagger/.generated/src/main/resources/swagger/redoc")
+        }
+        copy {
+            from("$projectDir/src/main/swagger/ui")
+            into("$projectDir/src/main/swagger/.generated/src/main/resources/swagger/ui")
+        }
+    }
+}
+
+
+tasks.openApiGenerate.dependsOn  tasks.openApiValidate
+tasks.compileJava.dependsOn tasks.openApiGenerate, tasks.openApiHtml2Generate, tasks.openApiJsonGenerate
 
 sourceSets.main.java.srcDir "${openApiGenerate.outputDir.get()}/src/main/java"
 sourceSets.main.resources.srcDir "${openApiGenerate.outputDir.get()}/src/main/resources"
